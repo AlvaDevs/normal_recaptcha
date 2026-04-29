@@ -32,7 +32,7 @@ body {
     overflow: hidden;
 }
 
-.recaptcha-fake-container {
+.recaptcha-container {
     width: 30.4rem;
     height: 7.8rem;
     background: #ffffff;
@@ -46,7 +46,7 @@ body {
     transition: all var(--velocidad-transicion);
 }
 
-.recaptcha-fake-container:hover {
+.recaptcha-container:hover {
     border-color: var(--gris-hover);
 }
 
@@ -56,7 +56,7 @@ body {
     margin-right: 1.4rem;
 }
 
-.checkbox-fake {
+.checkbox {
     width: 100%;
     height: 100%;
     border: 0.2rem solid #c1c1c1;
@@ -64,7 +64,7 @@ body {
     background: #fff;
 }
 
-.checkbox-container.loading .checkbox-fake {
+.checkbox-container.loading .checkbox {
     border-radius: 50%;
     border: 0.3rem solid var(--azul-google);
     border-top-color: transparent;

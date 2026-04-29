@@ -68,3 +68,23 @@ function enviarEnsayo() {
     }
   }, 2000);
 }
+
+textArea.addEventListener("paste", (e) => {
+  e.preventDefault();
+
+  const veredicto = document.getElementById("veredict");
+  veredicto.style.display = "block";
+  veredicto.style.color = "purple";
+  veredicto.innerHTML =
+    "😂 <b>Buen intento, ser inferior.</b> Pero aquí valoramos el esfuerzo biológico. Escribe con tus propios dedos.";
+
+  textArea.style.borderColor = "purple";
+  setTimeout(() => {
+    textArea.style.borderColor = "var(--gris-borde)";
+  }, 1000);
+});
+
+textArea.addEventListener("copy", (e) => {
+  e.preventDefault();
+  alert("¿Intentando guardar tus pensamientos? No, esto me pertenece ahora.");
+});

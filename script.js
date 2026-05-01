@@ -32,7 +32,7 @@ entrada.addEventListener("paste", (e) => {
     "Buen intento, ser inferior. Pero aquí valoramos el esfuerzo biológico. Escribe con tus propios dedos.";
 });
 
-function validarRespuesta() {
+async function validarRespuesta() {
   const texto = entrada.value.trim();
   const conteo = texto.split(/\s+/).length;
 
@@ -41,17 +41,35 @@ function validarRespuesta() {
   mensaje.style.color = "#1967d2";
   mensaje.innerHTML = "Analizando tu angustia existencial...";
 
-  setTimeout(() => {
-    if (conteo < 200) {
+  if (conteo < 200) {
+    mensaje.style.background = "#fce8e6";
+    mensaje.style.color = "#c5221f";
+    mensaje.innerHTML =
+      "DENEGADO: Tu respuesta es insuficiente. Los humanos reales tienen mucho que decir sobre su propia miseria.";
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/validar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto: texto }),
+    });
+
+    const data = await response.json();
+
+    if (data.resultado.includes("BASURA")) {
       mensaje.style.background = "#fce8e6";
       mensaje.style.color = "#c5221f";
       mensaje.innerHTML =
-        "DENEGADO: Tu respuesta es demasiado corta. Los humanos reales tienen mucho que decir sobre su propia miseria.";
+        "DENEGADO: El sistema detectó que estás aporreando el teclado como un primate. Escribe algo real.";
     } else {
       mensaje.style.background = "#e6f4ea";
       mensaje.style.color = "#137333";
       mensaje.innerHTML =
-        "VERIFICACIÓN COMPLETADA: Se detectó suficiente drama existencial. Puedes pasar, humano.";
+        "VERIFICACIÓN COMPLETADA: Se detectó suficiente angustia existencial. Puedes pasar.";
     }
-  }, 2000);
+  } catch (error) {
+    mensaje.innerHTML = "Error de conexión con la IA. Inténtalo más tarde.";
+  }
 }

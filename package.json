@@ -1,0 +1,26 @@
+{
+  "name": "normal_recaptcha",
+  "version": "1.0.0",
+  "description": "Just a normal reCaptcha",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlvaDevs/normal_recaptcha.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlvaDevs/normal_recaptcha/issues"
+  },
+  "homepage": "https://github.com/AlvaDevs/normal_recaptcha#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

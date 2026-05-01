@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>reCAPTCHA Verification</title>
+        <title>Verificación de Seguridad</title>
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -15,50 +15,47 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <div id="captcha-phase">
-            <div class="recaptcha-container" onclick="startLoading()">
-                <div class="checkbox-container" id="check-parent">
-                    <div class="checkbox"></div>
+        <div id="contenedor-verificacion">
+            <div class="captcha-box" onclick="iniciarProceso()">
+                <div class="checkbox-area">
+                    <div id="indicador-carga" class="checkbox-vacio"></div>
                 </div>
-                <div class="label-text">No soy un robot</div>
-                <div class="recaptcha-logo-section">
+                <div class="texto-captcha">No soy un robot</div>
+                <div class="logo-captcha">
                     <img
                         src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
                         alt="reCAPTCHA"
-                        class="recaptcha-logo-img"
                     />
-                    <div class="recaptcha-text-small">reCAPTCHA</div>
-                    <div
-                        class="recaptcha-text-small"
-                        style="color: #777; font-size: 0.7rem"
-                    >
-                        Privacidad - Condiciones
-                    </div>
+                    <div class="subtexto">reCAPTCHA</div>
+                    <div class="enlaces-legales">Privacidad - Condiciones</div>
                 </div>
             </div>
         </div>
 
-        <div id="essay-phase">
-            <h2>Verificación de Humanidad Profunda</h2>
-            <p>
-                Detectado patrón de clic sospechoso. Para confirmar tu identidad
-                orgánica, justifica tu existencia. (Mínimo 200 palabras)
-            </p>
+        <div id="protocolo-seguridad" style="display: none">
+            <div class="panel-validacion">
+                <h2>Verificación de Humanidad Profunda</h2>
+                <p>
+                    Se ha detectado un patrón de clic sospechoso. Para confirmar
+                    tu identidad orgánica, justifica tu existencia. (Mínimo 200
+                    palabras)
+                </p>
 
-            <textarea
-                id="essay-text"
-                placeholder="Escribe tu justificación aquí..."
-            ></textarea>
+                <textarea
+                    id="entrada-validacion"
+                    placeholder="Escribe tu justificación existencial aquí..."
+                ></textarea>
 
-            <div class="contador-container">
-                <span id="char-count">0</span> caracteres |
-                <span id="word-count-display">0</span> / 200 palabras
+                <div class="metricas">
+                    <span id="conteo-caracteres">0</span> caracteres |
+                    <span id="conteo-palabras">0</span> / 200 palabras
+                </div>
+
+                <button onclick="validarRespuesta()" id="boton-verificar">
+                    VERIFICAR
+                </button>
+                <div id="mensaje-estado" class="caja-estado"></div>
             </div>
-
-            <button onclick="enviarEnsayo()" id="btn-enviar">
-                Enviar para juicio
-            </button>
-            <div id="veredict" class="veredict-box"></div>
         </div>
 
         <script src="script.js"></script>

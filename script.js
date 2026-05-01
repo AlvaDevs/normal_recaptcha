@@ -1,90 +1,57 @@
-function startLoading() {
-  const check = document.getElementById("check-parent");
-  check.classList.add("loading");
+const entrada = document.getElementById("entrada-validacion");
+const mensaje = document.getElementById("mensaje-estado");
 
+function iniciarProceso() {
+  document.getElementById("indicador-carga").classList.add("animacion-carga");
   setTimeout(() => {
-    const fase1 = document.getElementById("captcha-phase");
-    const fase2 = document.getElementById("essay-phase");
-
-    fase1.style.opacity = "0";
-    setTimeout(() => {
-      fase1.style.display = "none";
-      fase2.classList.add("fase-activa");
-    }, 400);
-  }, 1500);
+    document.getElementById("contenedor-verificacion").style.display = "none";
+    document.getElementById("protocolo-seguridad").style.display = "block";
+  }, 1200);
 }
 
-const textArea = document.getElementById("essay-text");
-const wordDisplay = document.getElementById("word-count-display");
-const charDisplay = document.getElementById("char-count");
+entrada.addEventListener("input", () => {
+  const contenido = entrada.value.trim();
+  const palabras = contenido === "" ? 0 : contenido.split(/\s+/).length;
 
-textArea.addEventListener("input", () => {
-  const texto = textArea.value.trim();
-  const palabras = texto === "" ? 0 : texto.split(/\s+/).length;
+  document.getElementById("conteo-caracteres").innerText = contenido.length;
+  const indicadorPalabras = document.getElementById("conteo-palabras");
+  indicadorPalabras.innerText = palabras;
 
-  charDisplay.innerText = texto.length;
-  wordDisplay.innerText = palabras;
-
-  if (palabras >= 200) {
-    wordDisplay.classList.add("meta-alcanzada");
-  } else {
-    wordDisplay.classList.remove("meta-alcanzada");
-  }
+  indicadorPalabras.style.color = palabras >= 200 ? "#188038" : "#5f6368";
 });
 
-function enviarEnsayo() {
-  const texto = textArea.value.toLowerCase();
-  const palabras = texto.split(/\s+/).length;
-  const veredicto = document.getElementById("veredict");
+entrada.addEventListener("paste", (e) => {
+  e.preventDefault();
+  entrada.classList.add("alerta-error");
+  setTimeout(() => entrada.classList.remove("alerta-error"), 600);
 
-  veredicto.style.display = "block";
-  veredicto.innerHTML = "Analizando micro-pulsaciones del teclado...";
+  mensaje.style.display = "block";
+  mensaje.style.background = "#fce8e6";
+  mensaje.style.color = "#c5221f";
+  mensaje.innerHTML =
+    "Buen intento, ser inferior. Pero aquí valoramos el esfuerzo biológico. Escribe con tus propios dedos.";
+});
+
+function validarRespuesta() {
+  const texto = entrada.value.trim();
+  const conteo = texto.split(/\s+/).length;
+
+  mensaje.style.display = "block";
+  mensaje.style.background = "#e8f0fe";
+  mensaje.style.color = "#1967d2";
+  mensaje.innerHTML = "Analizando tu angustia existencial...";
 
   setTimeout(() => {
-    const emociones = [
-      "miedo",
-      "hambre",
-      "sueño",
-      "cansado",
-      "familia",
-      "error",
-      "justicia",
-      "existencia",
-    ];
-    const tieneEmocion = emociones.some((emo) => texto.includes(emo));
-
-    if (palabras < 200) {
-      veredicto.innerHTML =
-        "❌ DENEGADO: Tu respuesta es demasiado corta. Los humanos reales tienen mucho que decir sobre su miseria.";
-      veredicto.style.color = "red";
-    } else if (!tieneEmocion) {
-      veredicto.innerHTML =
-        "⚠️ SOSPECHOSO: Texto demasiado perfecto y robótico. Escribe con más sentimiento (hambre, miedo, cansancio).";
-      veredicto.style.color = "orange";
+    if (conteo < 200) {
+      mensaje.style.background = "#fce8e6";
+      mensaje.style.color = "#c5221f";
+      mensaje.innerHTML =
+        "DENEGADO: Tu respuesta es demasiado corta. Los humanos reales tienen mucho que decir sobre su propia miseria.";
     } else {
-      veredicto.innerHTML =
-        "✅ BIENVENIDO HUMANO: Se detectó angustia existencial legítima. Puedes pasar.";
-      veredicto.style.color = "green";
+      mensaje.style.background = "#e6f4ea";
+      mensaje.style.color = "#137333";
+      mensaje.innerHTML =
+        "VERIFICACIÓN COMPLETADA: Se detectó suficiente drama existencial. Puedes pasar, humano.";
     }
   }, 2000);
 }
-
-textArea.addEventListener("paste", (e) => {
-  e.preventDefault();
-
-  const veredicto = document.getElementById("veredict");
-  veredicto.style.display = "block";
-  veredicto.style.color = "purple";
-  veredicto.innerHTML =
-    "😂 <b>Buen intento, ser inferior.</b> Pero aquí valoramos el esfuerzo biológico. Escribe con tus propios dedos.";
-
-  textArea.style.borderColor = "purple";
-  setTimeout(() => {
-    textArea.style.borderColor = "var(--gris-borde)";
-  }, 1000);
-});
-
-textArea.addEventListener("copy", (e) => {
-  e.preventDefault();
-  alert("¿Intentando guardar tus pensamientos? No, esto me pertenece ahora.");
-});

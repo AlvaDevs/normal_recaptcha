@@ -9,9 +9,9 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-app.all("*", async (req, res) => {
+app.all("(.*)", async (req, res) => {
   if (req.method !== "POST") {
-    return res.status(405).send("Método no permitido");
+    return res.status(405).json({ error: "Método no permitido" });
   }
 
   const { texto } = req.body;

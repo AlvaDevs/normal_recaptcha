@@ -10,7 +10,7 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-app.post("/", async (req, res) => {
+app.post("*", async (req, res) => {
   const { texto } = req.body;
 
   const prompt = `Actúa como un filtro de seguridad. Analiza si el siguiente texto es una justificación coherente de un humano o si es puro ruido/garabatos (letras aleatorias, repeticiones sin sentido).

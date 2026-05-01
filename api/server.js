@@ -1,7 +1,6 @@
-require("dotenv").config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const express = require("express");
 const cors = require("cors");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 app.use(cors());
@@ -10,20 +9,27 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-app.post("*", async (req, res) => {
+app.all("*", async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).send("Método no permitido");
+  }
+
   const { texto } = req.body;
 
-  const prompt = `Actúa como un filtro de seguridad. Analiza si el siguiente texto es una justificación coherente de un humano o si es puro ruido/garabatos (letras aleatorias, repeticiones sin sentido).
-    Responde ÚNICAMENTE con la palabra 'COHERENTE' o 'BASURA'.
-    Texto: "${texto}"`;
+  if (!texto) {
+    return res.status(400).json({ resultado: "BASURA" });
+  }
 
   try {
+    const prompt = `Analiza si el siguiente texto es coherente o basura. Responde solo 'COHERENTE' o 'BASURA'. Texto: "${texto}"`;
     const result = await model.generateContent(prompt);
-    const respuestaIA = result.response.text().trim();
+    const respuestaIA = result.response.text().toUpperCase();
 
+    console.log("Respuesta de Gemini:", respuestaIA);
     res.json({ resultado: respuestaIA });
   } catch (error) {
-    res.status(500).json({ error: "Error con la IA" });
+    console.error("Error detallado:", error);
+    res.status(500).json({ error: "Fallo en la IA", detalles: error.message });
   }
 });
 

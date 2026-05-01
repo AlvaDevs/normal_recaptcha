@@ -50,7 +50,7 @@ async function validarRespuesta() {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/validar", {
+    const response = await fetch("/validar'", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ texto: texto }),
